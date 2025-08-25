@@ -1,0 +1,14 @@
+module ncurses;
+
+class NCurses {
+    native fn initialize-screen()
+    native fn raw()
+    native fn no-echo()
+    native fn get-ch() -> i32
+    native fn printw(text: String)
+    native fn attribute-on(attribute: i32)
+    native fn attribute-off(attribute: i32)
+    native fn refresh()
+    native fn end-window()
+
+}

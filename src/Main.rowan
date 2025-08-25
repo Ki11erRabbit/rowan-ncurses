@@ -1,0 +1,22 @@
+module main;
+
+import ncurses::NCurses;
+
+class Main {
+    fn main(args: [String]) {
+        NCurses::initialize-screen();
+        NCurses::raw();
+        NCurses::no-echo();
+        let ch: i32 = NCurses::get-ch();
+        
+        let prompt: String = "Type q to quit";
+        NCurses::printw(prompt);
+        while ch != 113 {
+            let prompt: String = "pressed";
+            NCurses::printw(prompt);
+            ch = NCurses::get-ch();
+        }
+        
+        NCurses::end-window();
+    }
+}
