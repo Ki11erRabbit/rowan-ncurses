@@ -11,7 +11,7 @@ void ncurses__low__NCursesLow__raw(rowan_context_t context);
 void ncurses__low__NCursesLow__cbreak(rowan_context_t context);
 void ncurses__low__NCursesLow__echo(rowan_context_t context);
 void ncurses__low__NCursesLow__noecho(rowan_context_t context);
-int32_t ncurses__low__NCursesLow__halfdelay(rowan_context_t context);
+int32_t ncurses__low__NCursesLow__halfdelay(rowan_context_t context, int32_t value);
 void ncurses__low__NCursesLow__refresh(rowan_context_t context);
 void ncurses__low__NCursesLow__wrefresh(rowan_context_t context, object_t*);
 int32_t ncurses__low__NCursesLow__getch(rowan_context_t context);
@@ -39,7 +39,6 @@ void ncurses__low__NCursesLow__addnstr(rowan_context_t context, object_t*, int32
 void ncurses__low__NCursesLow__mvaddstr(rowan_context_t context, int32_t, int32_t, object_t*);
 void ncurses__low__NCursesLow__waddstr(rowan_context_t context, object_t*, object_t*);
 void ncurses__low__NCursesLow__mvwaddstr(rowan_context_t context, object_t*, int32_t, int32_t, object_t*);
-object_t* ncurses__low__NCursesLow__getmaxyx(rowan_context_t context, object_t*);
 void ncurses__low__NCursesLow__wborder(rowan_context_t context, object_t*, int32_t, int32_t, int32_t, int32_t, int32_t, int32_t, int32_t, int32_t);
 void ncurses__low__NCursesLow__start_color(rowan_context_t context);
 uint8_t ncurses__low__NCursesLow__has_colors(rowan_context_t context);

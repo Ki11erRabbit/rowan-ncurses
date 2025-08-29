@@ -12,7 +12,7 @@ typedef struct window_low {
 
 size_t window__get_dash_size();
 void ncurses__low__WindowLow__init_dash_std_dash_internal(rowan_context_t context, object_t*);
-void ncurses__low__WindowLow__newwin_dash_internal(rowan_context_t context, object_t*);
+void ncurses__low__WindowLow__newwin_dash_internal(rowan_context_t context, object_t*, int32_t, int32_t, int32_t, int32_t);
 void ncurses__low__WindowLow__delwin(rowan_context_t context, object_t*);
 void custom_drop(object_t*);
 

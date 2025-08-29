@@ -1,12 +1,10 @@
-#ifndef NCURSES__LOW__NCURSESLOW_H
-#define NCURSES__LOW__NCURSESLOW_H
-
 #include <rowan_runtime.h>
 #include <stdint.h>
 #include <stddef.h>
 #include <ncurses.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "WindowLow.h"
 #include "MouseMask.h"
 #include "MouseEvent.h"
@@ -35,8 +33,8 @@ void ncurses__low__NCursesLow__noecho(rowan_context_t context) {
     noecho();
 }
 
-int32_t ncurses__low__NCursesLow__halfdelay(rowan_context_t context) {
-    halfdelay();
+int32_t ncurses__low__NCursesLow__halfdelay(rowan_context_t context, int32_t value) {
+    halfdelay(value);
 }
 
 void ncurses__low__NCursesLow__refresh(rowan_context_t context) {
@@ -44,7 +42,7 @@ void ncurses__low__NCursesLow__refresh(rowan_context_t context) {
 }
 
 void ncurses__low__NCursesLow__wrefresh(rowan_context_t context, object_t *win) {
-    object_t *win = (window_low_t*)win;
+    window_low_t *window = (window_low_t*)win;
     wrefresh(window->window);
 }
 
@@ -53,20 +51,20 @@ int32_t ncurses__low__NCursesLow__getch(rowan_context_t context) {
 }
 
 object_t *ncurses__low__NCursesLow__getstr(rowan_context_t context) {
-    char* str[BUFSIZE];
+    char str[BUFSIZ];
     getstr(str);
     return rowan_create_string_buffer(str);
 }
 
 object_t *ncurses__low__NCursesLow__mvgetstr(rowan_context_t context, int32_t row, int32_t col) {
-    char* str[BUFSIZE];
+    char str[BUFSIZ];
     mvgetstr(row, col, str);
     return rowan_create_string_buffer(str);
 }
 
 object_t* ncurses__low__NCursesLow__mvwgetstr(rowan_context_t context, object_t *win, int32_t row, int32_t col) {
     window_low_t* window = (window_low_t*)win;
-    char* str[BUFSIZE];
+    char str[BUFSIZ];
     mvwgetstr(window->window, row, col, str);
     return rowan_create_string_buffer(str);
 }
@@ -117,7 +115,7 @@ void ncurses__low__NCursesLow__printw(rowan_context_t context, object_t* string)
     char* str = malloc(length + 1);
     memcpy(str, buf, length);
     str[length] = '\0';
-    printw(str);
+    printw("%s", str);
     free(str);
     str = NULL;
 }
@@ -129,7 +127,7 @@ void ncurses__low__NCursesLow__mvprintw(rowan_context_t context, int32_t row, in
     char* str = malloc(length + 1);
     memcpy(str, buf, length);
     str[length] = '\0';
-    mvprintw(row, col, str);
+    mvprintw(row, col, "%s", str);
     free(str);
     str = NULL;
 }
@@ -142,7 +140,7 @@ void ncurses__low__NCursesLow__wprintw(rowan_context_t context, object_t *win, o
     char* str = malloc(length + 1);
     memcpy(str, buf, length);
     str[length] = '\0';
-    wprintw(window->window, str);
+    wprintw(window->window, "%s", str);
     free(str);
     str = NULL;
 }
@@ -155,7 +153,7 @@ void ncurses__low__NCursesLow__mvwprintw(rowan_context_t context, object_t *win,
     char* str = malloc(length + 1);
     memcpy(str, buf, length);
     str[length] = '\0';
-    mvwprintw(window->window, row, col, str);
+    mvwprintw(window->window, row, col, "%s", str);
     free(str);
     str = NULL;
 }
@@ -191,7 +189,7 @@ void ncurses__low__NCursesLow__mvaddstr(rowan_context_t context, int32_t row, in
     char* str = malloc(length + 1);
     memcpy(str, buf, length);
     str[length] = '\0';
-    mvaddstr(row, col, str, n);
+    mvaddstr(row, col, str);
     free(str);
     str = NULL;
 }
@@ -217,20 +215,9 @@ void ncurses__low__NCursesLow__mvwaddstr(rowan_context_t context, object_t *win,
     char* str = malloc(length + 1);
     memcpy(str, buf, length);
     str[length] = '\0';
-    mvaddstr(window->window, row, col, str);
+    mvwaddstr(window->window, row, col, str);
     free(str);
     str = NULL;
-}
-
-object_t* ncurses__low__NCursesLow__getmaxyx(rowan_context_t context, object_t*) {
-    object_t* array = rowan_create_array("32", 2);
-    if (array == NULL)
-        return NULL;
-    int32_t* buf = NULL;
-    uint64_t length = 0;
-    rowan_get_array_buffer(array, (void**)&buf, &length);
-    getmaxyz(buf[0], buf[1]);
-    return array;
 }
 
 void ncurses__low__NCursesLow__wborder(rowan_context_t context, object_t *win, int32_t ls, int32_t rs, int32_t ts, int32_t bs, int32_t tl, int32_t tr, int32_t bl, int32_t br) {
@@ -258,60 +245,60 @@ object_t* ncurses__low__NCursesLow__mousemask(rowan_context_t context, mouse_mas
 
 object_t* ncurses__low__NCursesLow__getmouse(rowan_context_t context) {
     mouse_event_t* mouse_event = (mouse_event_t*)rowan_create_object("ncurses::low::MouseEvent");
-    get_mouse(&mouse_event->event);
-    return mouse_event;
+    getmouse(&mouse_event->event);
+    return (object_t*)mouse_event;
 }
 
 object_t* ncurses__low__NCursesLow__getyx(rowan_context_t context, object_t *win) {
     window_low_t* window = (window_low_t*)win;
-    object_t* array = rowan_create_array("32", 2);
+    object_t* array = rowan_create_array(context, "32", 2);
     if (array == NULL)
         return NULL;
     int32_t* buf = NULL;
     uint64_t length = 0;
     rowan_get_array_buffer(array, (void**)&buf, &length);
-    getyz(window->window, buf[0], buf[1]);
+    getyx(window->window, buf[0], buf[1]);
     return array;
 }
 
 object_t* ncurses__low__NCursesLow__getparyx(rowan_context_t context, object_t *win) {
     window_low_t* window = (window_low_t*)win;
-    object_t* array = rowan_create_array("32", 2);
+    object_t* array = rowan_create_array(context, "32", 2);
     if (array == NULL)
         return NULL;
     int32_t* buf = NULL;
     uint64_t length = 0;
     rowan_get_array_buffer(array, (void**)&buf, &length);
-    getparyz(window->window, buf[0], buf[1]);
+    getparyx(window->window, buf[0], buf[1]);
     return array;
 }
 
 object_t* ncurses__low__NCursesLow__getbegyx(rowan_context_t context, object_t* win) {
     window_low_t *window = (window_low_t*)win;
-    object_t* array = rowan_create_array("32", 2);
+    object_t* array = rowan_create_array(context, "32", 2);
     if (array == NULL)
         return NULL;
     int32_t* buf = NULL;
     uint64_t length = 0;
     rowan_get_array_buffer(array, (void**)&buf, &length);
-    getbegyz(window->window, buf[0], buf[1]);
+    getbegyx(window->window, buf[0], buf[1]);
     return array;
 }
 
 object_t* ncurses__low__NCursesLow__getmaxyx(rowan_context_t context, object_t* win) {
     window_low_t *window = (window_low_t*)win;
-    object_t* array = rowan_create_array("32", 2);
+    object_t* array = rowan_create_array(context, "32", 2);
     if (array == NULL)
         return NULL;
     int32_t* buf = NULL;
     uint64_t length = 0;
     rowan_get_array_buffer(array, (void**)&buf, &length);
-    getmaxyz(window->window, buf[0], buf[1]);
+    getmaxyx(window->window, buf[0], buf[1]);
     return array;
 }
 
 object_t* ncurses__low__NCursesLow__scr_dump(rowan_context_t context) {
-    char* str[BUFSIZE];
+    char str[BUFSIZ];
     scr_dump(str);
     return rowan_create_string_buffer(str);
 }
@@ -338,5 +325,3 @@ void ncurses__low__NCursesLow__def_prog_mode(rowan_context_t context) {
 void ncurses__low__NCursesLow__reset_prog_mode(rowan_context_t context) {
     reset_prog_mode();
 }
-
-#endif

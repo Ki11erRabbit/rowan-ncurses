@@ -1,8 +1,24 @@
 module ncurses::low;
 
+import ncurses::low::NCursesLow;
+
 class Main {
     fn main(args: [String]) {
+        NCursesLow::initscr();
+        NCursesLow::raw();
+        NCursesLow::noecho();
+        NCursesLow::refresh();
 
+        let ch: i32 = NCursesLow::getch();
+
+        while ch != 113 {
+            let pressed: String = "Pressed a key";
+            NCursesLow::printw(pressed);
+            ch = NCursesLow::getch();
+            NCursesLow::refresh();
+        }
+
+        NCursesLow::endwin();
     }
 }
 
@@ -13,7 +29,7 @@ class NCursesLow {
     native fn cbreak()
     native fn echo()
     native fn noecho()
-    native fn halfdelay() -> i32
+    native fn halfdelay(value: i32) -> i32
 
     native fn refresh()
     native fn wrefresh(window: WindowLow)
@@ -48,8 +64,6 @@ class NCursesLow {
     native fn mvaddstr(row: i32, col: i32, text: String)
     native fn waddstr(window: WindowLow, text: String)
     native fn mvwaddstr(window: WindowLow, row: i32, col: i32, text: String)
-
-    native fn getmaxyx(window: WindowLow) -> [i32]
 
     native fn wborder(window: WindowLow, ls: i32, rs: i32, ts: i32, bs: i32, tl: i32, tr: i32, bl: i32, br: i32)
 
@@ -93,12 +107,12 @@ class WindowLow {
 
     native fn init-std-internal(self)
 
-    fn newwin() -> WindowLow {
+    fn newwin(num_lines: i32, num_cols: i32, begy: i32, begx: i32) -> WindowLow {
         let window: WindowLow = new WindowLow()
-        window.newwin-internal()
+        window.newwin-internal(num_lines, num_cols, begy, begx)
         return window
     }
-    native fn newwin-internal(self)
+    native fn newwin-internal(self, num_lines: i32, num_cols: i32, begy: i32, begx: i32)
 
     native fn delwin(self)
 }
@@ -220,7 +234,7 @@ class MouseMask {
     native fn is-button-ctrl-set(self) -> bool
     native fn is-button-alt-set(self) -> bool
 
-    native fn is-report-mouse-position-set(self)
+    native fn is-report-mouse-position-set(self) -> bool
 }
 
 class MouseEvent {

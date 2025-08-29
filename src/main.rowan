@@ -1,8 +1,23 @@
 module main;
 
+import ncurses::low::NCursesLow;
 
 class Main {
     fn main(args: [String]) {
-       
+        NCursesLow::initscr();
+        NCursesLow::raw();
+        NCursesLow::noecho();
+        NCursesLow::refresh();
+
+        let ch: i32 = NCursesLow::getch();
+
+        while ch != 113 {
+            let pressed: String = "Pressed a key";
+            NCursesLow::printw(pressed);
+            ch = NCursesLow::getch();
+            NCursesLow::refresh();
+        }
+
+        NCursesLow::endwin();
     }
 }

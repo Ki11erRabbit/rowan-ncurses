@@ -83,7 +83,7 @@ uint8_t ncurses__low__MouseMask__is_dash_button4_dash_triple_dash_clicked_dash_s
 uint8_t ncurses__low__MouseMask__is_dash_button_dash_shift_dash_set(rowan_context_t context, object_t*);
 uint8_t ncurses__low__MouseMask__is_dash_button_dash_ctrl_dash_set(rowan_context_t context, object_t*);
 uint8_t ncurses__low__MouseMask__is_dash_button_dash_alt_dash_set(rowan_context_t context, object_t*);
-void ncurses__low__MouseMask__is_dash_report_dash_mouse_dash_position_dash_set(rowan_context_t context, object_t*);
+uint8_t ncurses__low__MouseMask__is_dash_report_dash_mouse_dash_position_dash_set(rowan_context_t context, object_t*);
 void custom_drop(object_t*);
 
 #endif
