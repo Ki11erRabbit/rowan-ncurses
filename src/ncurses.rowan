@@ -1,3 +1,178 @@
 module ncurses;
 
+import ncurses::low::NCursesLow;
+import ncurses::low::WindowLow;
 
+import ncurses::NCursesBuilder;
+import ncurses::NCurses;
+import ncurses::Window;
+
+class Main {
+    fn main(args: [String]) {
+        let builder: NCursesBuilder = NCursesBuilder::create()
+        builder.enable-raw-mode()
+        builder.disable-echoing()
+        builder.disable-line-buffering();
+        builder.start-ncurses(|stdscr: Window| {
+            let prompt: String = "Press any key\nq to quit\n";
+            stdscr.refresh()
+            stdscr.printw(prompt)
+            let ch: i32 = NCurses::get-char();
+            while ch != 113 {
+                let pressed: String = "Pressed a key";
+                stdscr.printw(pressed)
+                ch = NCurses::get-char();
+                stdscr.refresh();
+            }
+        })
+    }
+}
+
+class NCurses {
+    fn get-char() -> i32 {
+        return NCursesLow::getch()
+    }
+
+    fn move(x: i32, y: i32) {
+        NCursesLow::move(y, x)
+    }
+}
+
+class NCursesBuilder {
+    enable-raw: bool
+    disable-echo: bool
+    use-half-delay: bool
+    half-delay: i32
+    line-buffering-off: bool
+
+    fn create() -> NCursesBuilder {
+        return new NCursesBuilder()
+    }
+
+    fn enable-raw-mode(self) {
+        self.enable-raw = True
+    }
+    
+    fn disable-raw-mode(self) {
+        self.enable-raw = False
+    }
+    
+    fn enable-echoing(self) {
+        self.disable-echo = False
+    }
+    
+    fn disable-echoing(self) {
+        self.disable-echo = True
+    }
+
+    fn enable-half-delay(self) {
+        self.use-half-delay = True
+    }
+    
+    fn disable-half-delay(self) {
+        self.use-half-delay = False
+    }
+
+    fn set-half-delay(self, value: i32) {
+        self.half-delay = value;
+    }
+
+    fn disable-line-buffering(self) {
+        self.line-buffering-off = True;
+    }
+
+    fn enable-line-buffering(self) {
+        self.line-buffering-off = False;
+    }
+    
+    fn start-ncurses(self, function: fn(Window)) {
+        NCursesLow::initscr()
+        if self.enable-raw {
+            NCursesLow::raw()   
+        }
+        if self.disable-echo {
+            NCursesLow::noecho()   
+        }
+        if self.use-half-delay {
+            NCursesLow::halfdelay(self.half-delay)
+        }
+        if self.line-buffering-off {
+            NCursesLow::cbreak()
+        }
+        let window: Window = Window::std-screen()
+        function.call(window)
+        NCursesLow::endwin()
+    }
+}
+
+class Window {
+    low: WindowLow;
+
+    fn std-screen() -> Window {
+        let win: Window = new Window();
+        win.low = WindowLow::init-std();
+        return win
+    }
+
+    fn create(line-count: i32, col-count: i32, beginning-y: i32, beginning-x: i32) -> Window {
+        let win: Window = new Window();
+        win.low = WindowLow::newwin(line-count, col-count, beginning-y, beginning-x)
+        return win
+    }
+
+    fn delete-window(self) {
+        self.low.delwin()
+    }
+
+    fn refresh(self) {
+        NCursesLow::wrefresh(self.low)
+    }
+
+    fn move-get-str(self, x: i32, y: i32) -> StringBuffer {
+        return NCursesLow::mvwgetstr(self.low, y, x)
+    }
+
+    fn keypad(self, enable: bool) {
+        NCursesLow::keypad(self.low, enable);
+    }
+
+    fn printw(self, text: String) {
+        NCursesLow::wprintw(self.low, text)
+    }
+
+    fn move-printw(self, text: String, x: i32, y: i32) {
+        NCursesLow::mvwprintw(self.low, y, x, text)
+    }
+
+    fn add-string(self, text: String) {
+        NCursesLow::waddstr(self.low, text)
+    }
+
+    fn move-add-string(self, text: String, x: i32, y: i32) {
+        NCursesLow::mvwaddstr(self.low, y, x, text)
+    }
+
+    fn get-xy(self) -> [i32] {
+        let arr: [i32] = NCursesLow::getyx()
+        //let temp: i32 = arr[0]
+        //arr[0] = arr[1]
+        //arr[1] = temp
+        return arr
+    }
+
+    fn get-start-xy(self) -> [i32] {
+        let arr: [i32] = NCursesLow::getbegyx()
+        //let temp: i32 = arr[0]
+        //arr[0] = arr[1]
+        //arr[1] = temp
+        return arr
+    }
+
+    fn get-end-xy(self) -> [i32] {
+        let arr: [i32] = NCursesLow::getmaxyx()
+        //let temp: i32 = arr[0]
+        //arr[0] = arr[1]
+        //arr[1] = temp
+        return arr
+    }
+}

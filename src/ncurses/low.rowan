@@ -97,7 +97,6 @@ class NCursesLow {
 
 class WindowLow {
     window: native
-    static stdwindow: WindowLow = WindowLow::init-std()
 
     fn init-std() -> WindowLow {
         let window: WindowLow = new WindowLow()
