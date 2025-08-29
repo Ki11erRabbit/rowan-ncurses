@@ -1,0 +1,8 @@
+module main;
+
+
+class Main {
+    fn main(args: [String]) {
+       
+    }
+}

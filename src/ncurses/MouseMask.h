@@ -1,0 +1,89 @@
+#ifndef NCURSES__LOW__MOUSEMASK_H
+#define NCURSES__LOW__MOUSEMASK_H
+
+#include <rowan_runtime.h>
+#include <stdint.h>
+#include <stddef.h>
+
+typedef struct mouse_mask {
+    object_t base;
+    mmask_t mask;
+} mouse_mask_t;
+
+size_t mask__get_dash_size();
+void ncurses__low__MouseMask__create_dash_internal(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__button1_dash_pressed(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__button1_dash_released(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__button1_dash_clicked(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__button1_dash_double_dash_clicked(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__button1_dash_triple_dash_clicked(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__button2_dash_pressed(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__button2_dash_released(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__button2_dash_clicked(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__button2_dash_double_dash_clicked(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__button2_dash_triple_dash_clicked(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__button3_dash_pressed(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__button3_dash_released(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__button3_dash_clicked(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__button3_dash_double_dash_clicked(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__button3_dash_triple_dash_clicked(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__button4_dash_pressed(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__button4_dash_released(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__button4_dash_clicked(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__button4_dash_double_dash_clicked(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__button4_dash_triple_dash_clicked(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__button_dash_shift(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__button_dash_ctrl(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__button_dash_alt(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__report_dash_mouse_dash_position(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__unset_dash_button1_dash_pressed(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__unset_dash_button1_dash_released(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__unset_dash_button1_dash_clicked(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__unset_dash_button1_dash_double_dash_clicked(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__unset_dash_button1_dash_triple_dash_clicked(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__unset_dash_button2_dash_pressed(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__unset_dash_button2_dash_released(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__unset_dash_button2_dash_clicked(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__unset_dash_button2_dash_double_dash_clicked(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__unset_dash_button2_dash_triple_dash_clicked(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__unset_dash_button3_dash_pressed(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__unset_dash_button3_dash_released(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__unset_dash_button3_dash_clicked(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__unset_dash_button3_dash_double_dash_clicked(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__unset_dash_button3_dash_triple_dash_clicked(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__unset_dash_button4_dash_pressed(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__unset_dash_button4_dash_released(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__unset_dash_button4_dash_clicked(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__unset_dash_button4_dash_double_dash_clicked(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__unset_dash_button4_dash_triple_dash_clicked(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__unset_dash_button_dash_shift(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__unset_dash_button_dash_ctrl(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__unset_dash_button_dash_alt(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__unset_dash_report_dash_mouse_dash_position(rowan_context_t context, object_t*);
+uint8_t ncurses__low__MouseMask__is_dash_button1_dash_pressed_dash_set(rowan_context_t context, object_t*);
+uint8_t ncurses__low__MouseMask__is_dash_button1_dash_released_dash_set(rowan_context_t context, object_t*);
+uint8_t ncurses__low__MouseMask__is_dash_button1_dash_clicked_dash_set(rowan_context_t context, object_t*);
+uint8_t ncurses__low__MouseMask__is_dash_button1_dash_double_dash_clicked_dash_set(rowan_context_t context, object_t*);
+uint8_t ncurses__low__MouseMask__is_dash_button1_dash_triple_dash_clicked_dash_set(rowan_context_t context, object_t*);
+uint8_t ncurses__low__MouseMask__is_dash_button2_dash_pressed_dash_set(rowan_context_t context, object_t*);
+uint8_t ncurses__low__MouseMask__is_dash_button2_dash_released_dash_set(rowan_context_t context, object_t*);
+uint8_t ncurses__low__MouseMask__is_dash_button2_dash_clicked_dash_set(rowan_context_t context, object_t*);
+uint8_t ncurses__low__MouseMask__is_dash_button2_dash_double_dash_clicked_dash_set(rowan_context_t context, object_t*);
+uint8_t ncurses__low__MouseMask__is_dash_button2_dash_triple_dash_clicked_dash_set(rowan_context_t context, object_t*);
+uint8_t ncurses__low__MouseMask__is_dash_button3_dash_pressed_dash_set(rowan_context_t context, object_t*);
+uint8_t ncurses__low__MouseMask__is_dash_button3_dash_released_dash_set(rowan_context_t context, object_t*);
+uint8_t ncurses__low__MouseMask__is_dash_button3_dash_clicked_dash_set(rowan_context_t context, object_t*);
+uint8_t ncurses__low__MouseMask__is_dash_button3_dash_double_dash_clicked_dash_set(rowan_context_t context, object_t*);
+uint8_t ncurses__low__MouseMask__is_dash_button3_dash_triple_dash_clicked_dash_set(rowan_context_t context, object_t*);
+uint8_t ncurses__low__MouseMask__is_dash_button4_dash_pressed_dash_set(rowan_context_t context, object_t*);
+uint8_t ncurses__low__MouseMask__is_dash_button4_dash_released_dash_set(rowan_context_t context, object_t*);
+uint8_t ncurses__low__MouseMask__is_dash_button4_dash_clicked_dash_set(rowan_context_t context, object_t*);
+uint8_t ncurses__low__MouseMask__is_dash_button4_dash_double_dash_clicked_dash_set(rowan_context_t context, object_t*);
+uint8_t ncurses__low__MouseMask__is_dash_button4_dash_triple_dash_clicked_dash_set(rowan_context_t context, object_t*);
+uint8_t ncurses__low__MouseMask__is_dash_button_dash_shift_dash_set(rowan_context_t context, object_t*);
+uint8_t ncurses__low__MouseMask__is_dash_button_dash_ctrl_dash_set(rowan_context_t context, object_t*);
+uint8_t ncurses__low__MouseMask__is_dash_button_dash_alt_dash_set(rowan_context_t context, object_t*);
+void ncurses__low__MouseMask__is_dash_report_dash_mouse_dash_position_dash_set(rowan_context_t context, object_t*);
+void custom_drop(object_t*);
+
+#endif

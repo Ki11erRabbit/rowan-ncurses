@@ -1,0 +1,236 @@
+module ncurses::low;
+
+class Main {
+    fn main(args: [String]) {
+
+    }
+}
+
+class NCursesLow {
+    native fn initscr()
+    native fn endwin()
+    native fn raw()
+    native fn cbreak()
+    native fn echo()
+    native fn noecho()
+    native fn halfdelay() -> i32
+
+    native fn refresh()
+    native fn wrefresh(window: WindowLow)
+
+    native fn getch() -> i32
+
+    native fn getstr() -> StringBuffer
+    native fn mvgetstr(row: i32, col: i32) -> StringBuffer
+    native fn mvwgetstr(window: WindowLow, row: i32, col: i32) -> StringBuffer
+
+    native fn attrset(attribute: i32)
+    native fn attron(attribute: i32)
+    native fn attroff(attribute: i32)
+
+
+    native fn keypad(window: WindowLow, enable: bool)
+
+    native fn move(row: i32, col: i32)
+
+    native fn addch(chr: i32)
+    native fn mvaddch(row: i32, col: i32, chr: i32)
+    native fn waddch(window: WindowLow, chr: i32)
+    native fn mvwaddch(window: WindowLow, row: i32, col: i32, chr: i32)
+
+    native fn printw(text: String)
+    native fn mvprintw(row: i32, col: i32, text: String)
+    native fn wprintw(window: WindowLow, text: String)
+    native fn mvwprintw(window: WindowLow, row: i32, col: i32, text: String)
+
+    native fn addstr(text: String)
+    native fn addnstr(text: String, n: i32)
+    native fn mvaddstr(row: i32, col: i32, text: String)
+    native fn waddstr(window: WindowLow, text: String)
+    native fn mvwaddstr(window: WindowLow, row: i32, col: i32, text: String)
+
+    native fn getmaxyx(window: WindowLow) -> [i32]
+
+    native fn wborder(window: WindowLow, ls: i32, rs: i32, ts: i32, bs: i32, tl: i32, tr: i32, bl: i32, br: i32)
+
+    fn box(window: WindowLow, v: i32, h: i32) {
+        let zero: i32 = 0;
+        NCursesLow::wborder(window, v, v, h, h, zero, zero, zero, zero)
+    }
+
+    native fn start_color()
+    native fn has_colors() -> bool
+
+    native fn init_pair(index: i32, color1: i32, color2: i32)
+
+    native fn mousemask(newmask: MouseMask) -> MouseMask
+
+    native fn getmouse() -> MouseEvent
+
+    native fn getyx(window: WindowLow) -> [i32]
+    native fn getparyx(window: WindowLow) -> [i32]
+    native fn getbegyx(window: WindowLow) -> [i32]
+    native fn getmaxyx(window: WindowLow) -> [i32]
+
+    native fn scr_dump() -> String
+    native fn scr_restore(scr: String)
+
+    native fn curs_set(value: i32)
+
+    native fn def_prog_mode()
+    native fn reset_prog_mode()
+}
+
+class WindowLow {
+    window: native
+    static stdwindow: WindowLow = WindowLow::init-std()
+
+    fn init-std() -> WindowLow {
+        let window: WindowLow = new WindowLow()
+        window.init-std-internal()
+        return window
+    }
+
+    native fn init-std-internal(self)
+
+    fn newwin() -> WindowLow {
+        let window: WindowLow = new WindowLow()
+        window.newwin-internal()
+        return window
+    }
+    native fn newwin-internal(self)
+
+    native fn delwin(self)
+}
+
+class MouseMask {
+    mask: native
+
+    static all-mouse-events: MouseMask = MouseMask::create-all()
+
+    fn create-all() -> MouseMask {
+       let mask: MouseMask = MouseMask::create()
+       mask.button1-pressed()
+       mask.button1-released()
+       mask.button1-clicked()
+       mask.button1-double-clicked()
+       mask.button1-triple-clicked()
+       mask.button2-pressed()
+       mask.button2-released()
+       mask.button2-clicked()
+       mask.button2-double-clicked()
+       mask.button2-triple-clicked()
+       mask.button3-pressed()
+       mask.button3-released()
+       mask.button3-clicked()
+       mask.button3-double-clicked()
+       mask.button3-triple-clicked()
+       mask.button4-pressed()
+       mask.button4-released()
+       mask.button4-clicked()
+       mask.button4-double-clicked()
+       mask.button4-triple-clicked()
+       mask.button-shift()
+       mask.button-ctrl()
+       mask.button-ctrl()
+       return mask
+    }
+
+    fn create() -> MouseMask {
+       let mask: MouseMask = new MouseMask()
+       mask.create-internal()
+       return mask
+    }
+
+    native fn create-internal(self)
+
+    native fn button1-pressed(self)
+    native fn button1-released(self)
+    native fn button1-clicked(self)
+    native fn button1-double-clicked(self)
+    native fn button1-triple-clicked(self)
+    native fn button2-pressed(self)
+    native fn button2-released(self)
+    native fn button2-clicked(self)
+    native fn button2-double-clicked(self)
+    native fn button2-triple-clicked(self)
+    native fn button3-pressed(self)
+    native fn button3-released(self)
+    native fn button3-clicked(self)
+    native fn button3-double-clicked(self)
+    native fn button3-triple-clicked(self)
+    native fn button4-pressed(self)
+    native fn button4-released(self)
+    native fn button4-clicked(self)
+    native fn button4-double-clicked(self)
+    native fn button4-triple-clicked(self)
+    native fn button-shift(self)
+    native fn button-ctrl(self)
+    native fn button-alt(self)
+
+    native fn report-mouse-position(self)
+
+    native fn unset-button1-pressed(self)
+    native fn unset-button1-released(self)
+    native fn unset-button1-clicked(self)
+    native fn unset-button1-double-clicked(self)
+    native fn unset-button1-triple-clicked(self)
+    native fn unset-button2-pressed(self)
+    native fn unset-button2-released(self)
+    native fn unset-button2-clicked(self)
+    native fn unset-button2-double-clicked(self)
+    native fn unset-button2-triple-clicked(self)
+    native fn unset-button3-pressed(self)
+    native fn unset-button3-released(self)
+    native fn unset-button3-clicked(self)
+    native fn unset-button3-double-clicked(self)
+    native fn unset-button3-triple-clicked(self)
+    native fn unset-button4-pressed(self)
+    native fn unset-button4-released(self)
+    native fn unset-button4-clicked(self)
+    native fn unset-button4-double-clicked(self)
+    native fn unset-button4-triple-clicked(self)
+    native fn unset-button-shift(self)
+    native fn unset-button-ctrl(self)
+    native fn unset-button-alt(self)
+
+    native fn unset-report-mouse-position(self)
+
+    native fn is-button1-pressed-set(self) -> bool
+    native fn is-button1-released-set(self) -> bool
+    native fn is-button1-clicked-set(self) -> bool
+    native fn is-button1-double-clicked-set(self) -> bool
+    native fn is-button1-triple-clicked-set(self) -> bool
+    native fn is-button2-pressed-set(self) -> bool
+    native fn is-button2-released-set(self) -> bool
+    native fn is-button2-clicked-set(self) -> bool
+    native fn is-button2-double-clicked-set(self) -> bool
+    native fn is-button2-triple-clicked-set(self) -> bool
+    native fn is-button3-pressed-set(self) -> bool
+    native fn is-button3-released-set(self) -> bool
+    native fn is-button3-clicked-set(self) -> bool
+    native fn is-button3-double-clicked-set(self) -> bool
+    native fn is-button3-triple-clicked-set(self) -> bool
+    native fn is-button4-pressed-set(self) -> bool
+    native fn is-button4-released-set(self) -> bool
+    native fn is-button4-clicked-set(self) -> bool
+    native fn is-button4-double-clicked-set(self) -> bool
+    native fn is-button4-triple-clicked-set(self) -> bool
+    native fn is-button-shift-set(self) -> bool
+    native fn is-button-ctrl-set(self) -> bool
+    native fn is-button-alt-set(self) -> bool
+
+    native fn is-report-mouse-position-set(self)
+}
+
+class MouseEvent {
+    mouse-ev: native
+
+    native fn get-id(self) -> i16
+    native fn get-x(self) -> i32
+    native fn get-y(self) -> i32
+    native fn get-z(self) -> i32
+    native fn get-coords(self) -> [i32]
+
+    native fn get-mouse-mask(self) -> MouseMask
+}
